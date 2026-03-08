@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POMARAY - Biblioteca Escolar</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+                <h1>POMARAY</h1>
+                <p>Biblioteca</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" data-view="dashboard" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="#" data-view="books"><i class="fa-solid fa-book"></i> Libros</a></li>
+                <li><a href="#" data-view="students"><i class="fa-solid fa-user-graduate"></i> Estudiantes</a></li>
+                <li><a href="#" data-view="loans"><i class="fa-solid fa-hand-holding-hand"></i> Préstamos</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <h2 id="current-view-title">Dashboard</h2>
+                <div class="user-profile">
+                    <span class="user-role">Administrador</span>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view active-view fade-in">
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon blue"><i class="fa-solid fa-book-bookmark"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Libros</h3>
+                            <p id="stat-total-books">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon green"><i class="fa-solid fa-book-open"></i></div>
+                        <div class="stat-info">
+                            <h3>Libros Disponibles</h3>
+                            <p id="stat-avail-books">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon purple"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3>Estudiantes</h3>
+                            <p id="stat-total-students">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon orange"><i class="fa-solid fa-rotate-left"></i></div>
+                        <div class="stat-info">
+                            <h3>Préstamos Activos</h3>
+                            <p id="stat-active-loans">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-widgets">
+                    <div class="widget glass-panel">
+                        <div class="widget-header">
+                            <h3>Préstamos Recientes</h3>
+                            <button class="btn-text" onclick="showView('loans')">Ver Todos</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="recent-loans-table">
+                                <thead>
+                                    <tr>
+                                        <th>Libro</th>
+                                        <th>Estudiante</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Books View -->
+            <section id="view-books" class="view fade-in">
+                <div class="action-bar glass-panel">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-books" placeholder="Buscar libros...">
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('modal-add-book')">
+                        <i class="fa-solid fa-plus"></i> Nuevo Libro
+                    </button>
+                </div>
+                <div class="table-container glass-panel mt-4">
+                    <table class="data-table" id="books-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Categoría</th>
+                                <th>ISBN</th>
+                                <th>Disponibilidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Students View -->
+            <section id="view-students" class="view fade-in">
+                <div class="action-bar glass-panel">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-students" placeholder="Buscar estudiantes...">
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('modal-add-student')">
+                        <i class="fa-solid fa-plus"></i> Nuevo Estudiante
+                    </button>
+                </div>
+                <div class="table-container glass-panel mt-4">
+                    <table class="data-table" id="students-table">
+                        <thead>
+                            <tr>
+                                <th>Matrícula / ID</th>
+                                <th>Nombre Completo</th>
+                                <th>Grado/Grupo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Loans View -->
+            <section id="view-loans" class="view fade-in">
+                <div class="action-bar glass-panel">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-loans" placeholder="Buscar préstamos...">
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('modal-add-loan')">
+                        <i class="fa-solid fa-hand-holding-hand"></i> Registrar Préstamo
+                    </button>
+                </div>
+                <div class="table-container glass-panel mt-4">
+                    <table class="data-table" id="loans-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Libro</th>
+                                <th>Estudiante</th>
+                                <th>Fecha Préstamo</th>
+                                <th>Fecha Devolución</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Add Book Modal -->
+    <div id="modal-add-book" class="modal-overlay">
+        <div class="modal glass-panel fade-in-up">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Libro</h3>
+                <button class="close-btn" onclick="closeModal('modal-add-book')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-add-book" class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Título del Libro *</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Autor *</label>
+                        <input type="text" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <input type="text" name="category">
+                    </div>
+                    <div class="form-group">
+                        <label>ISBN</label>
+                        <input type="text" name="isbn">
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad *</label>
+                        <input type="number" name="quantity" min="1" value="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-add-book')">Cancelar</button>
+                <button class="btn btn-primary" form="form-add-book" type="submit">Guardar Libro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="modal-add-student" class="modal-overlay">
+        <div class="modal glass-panel fade-in-up">
+            <div class="modal-header">
+                <h3>Agregar Estudiante</h3>
+                <button class="close-btn" onclick="closeModal('modal-add-student')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-add-student" class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Nombre Completo *</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Matrícula / ID *</label>
+                        <input type="text" name="student_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Grado / Grupo *</label>
+                        <input type="text" name="grade" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-add-student')">Cancelar</button>
+                <button class="btn btn-primary" form="form-add-student" type="submit">Guardar Estudiante</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Issue Loan Modal -->
+    <div id="modal-add-loan" class="modal-overlay">
+        <div class="modal glass-panel fade-in-up">
+            <div class="modal-header">
+                <h3>Registrar Préstamo</h3>
+                <button class="close-btn" onclick="closeModal('modal-add-loan')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-add-loan" class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Seleccionar Estudiante *</label>
+                        <select name="student_id" id="loan-student-select" required>
+                            <option value="">Cargando estudiantes...</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Seleccionar Libro *</label>
+                        <select name="book_id" id="loan-book-select" required>
+                            <option value="">Cargando libros disponibles...</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-add-loan')">Cancelar</button>
+                <button class="btn btn-primary" form="form-add-loan" type="submit">Confirmar Préstamo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
